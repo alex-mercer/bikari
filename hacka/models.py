@@ -43,7 +43,8 @@ class Event(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('show_event', args=[self.city.name, self.id])
+        path = reverse('show_event', args=[self.city.name, self.id])
+        return "http://localhost:8000%s" % path
 
 
 class Registration(models.Model):
