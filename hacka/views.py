@@ -1,8 +1,10 @@
 # coding=utf-8
+from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib import auth
-from hacka.models import HackaUser, User, City, Event
+from hacka.models import HackaUser, User, City, Event, Registration
 
 
 def home(request):
@@ -28,8 +30,10 @@ def show_event(request, city, event_id):
     return render(request, 'event.html', {'event': event, 'city': city})
 
 
-def show_user(request, user_name):
-    pass
+@login_required
+def show_user(request):
+    user = request.user.hackauser
+    return render(request, 'events.html', {'user': user, 'events': Registration.objects.filter(user_id=user.id)})
 
 
 def signup(request):
