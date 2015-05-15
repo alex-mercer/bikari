@@ -1,4 +1,41 @@
 {% extends 'base.html' %}
 {% block body %}
-User page
+    <div class="section card-box" id="user-events-section">
+        <div class="row">
+            <div class="col-md-12">
+                <center>
+                    <h3 class="table-subject">رویداد های ثبت نام شده</h3>
+                </center>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="list-box">
+                    <table dir="rtl" class="table list-table">
+                        <thead class="list-table-head">
+                        <tr>
+                            <th class="list-table-head-item list-table-head-numb">ردیف</th>
+                            <th class="list-table-head-item list-table-head-title">عنوان</th>
+                            <th class="list-table-head-item list-table-head-time">زمان</th>
+                            <th class="list-table-head-item list-table-head-status">وضعیت</th>
+                            <th class="list-table-head-item list-table-head-dismiss"></th>
+                        </tr>
+                        </thead>
+                        <tbody class="list-table-body">
+                        {% for event in events %}
+                        <tr data-href="#" class="list-table-body-tr">
+                            <td class="list-table-body-item">{{ forloop.counter }}</td>
+                            <td class="list-table-body-item"><a href="{{ event.event.get_absolute_url }}">{{ event.event.title }}</a></td>
+                            <td class="list-table-body-item">{{ event.event.start }}</td>
+                            <td class="list-table-body-item">{{ event.status }}</td>
+                            <td class="list-table-body-item list-body-item-dismiss"><a href="/devices/detail?id="><img src="images/icon4.png" class="list-body-item-setting-icon"/></a></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
 {% endblock %}

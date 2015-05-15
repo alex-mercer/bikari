@@ -81,5 +81,10 @@
             toastr["{{ alert_type|default:'error' }}"]("{{ alert_message }}", "{{ alert_title }}");
         {% endif %}
     </script>
+    <style>
+        body {
+            background-image: url("{{ city.background.url }}");
+        }
+    </style>
 </body>
 </html>

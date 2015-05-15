@@ -16,14 +16,19 @@
             </div>
         </div>
     </div>
-    <div class="section card-box" id="hot-event-section">
-
-    </div>
-    <div class="section card-box" id="hot-events-section">
-        {
-    </div>
-    <div class="section card-box" id="contact-section">
-
+    <div class="section" id="event-section">
+        <ul id="event-cards">
+            {% for event in events %}
+            <li class="card-box">
+                <a href="http://google.com">
+                    <div class="img" style="background-image:url('{{ event.picture.url }}')"></div>
+                </a>
+                <div class="desc">
+                    <h3>{{ event.title }}</h3>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
     <style>
         #city-image{
@@ -33,9 +38,6 @@
             width: 250px;
             height: 250px;
             margin: 50px;
-        }
-        body {
-            background-image: url("{{ city.background.url }}");
         }
     </style>
 {% endblock %}
