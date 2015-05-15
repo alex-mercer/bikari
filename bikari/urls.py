@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     url(r'^logout/', views.logout, name='logout'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^user/', views.show_user, name='user_profile'),
+    url(r'^profile/$', views.edit_profile, name='edit_profile'),
     url(r'^(?P<city>\w+)/(?P<event_id>\w+)/$', views.show_event, name='show_event'),
     url(r'^(?P<city>\w+)/$', views.show_city, name='show_city'),
-    url(r'^edit_profile$', views.edit_profile, name='edit_profile'),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

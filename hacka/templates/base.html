@@ -48,8 +48,8 @@
                                 <span class="glyphicon glyphicon-user"></span>
                             </a>
                             <ul class="dropdown-menu pull-right" role="menu">
-                                <li><a href="#">رویداد های من</a></li>
-                                <li><a href="#">تغییر پروفایل</a></li>
+                                <li><a href="/user/">رویداد های من</a></li>
+                                <li><a href="/profile/">تغییر پروفایل</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -82,9 +82,11 @@
         {% endif %}
     </script>
     <style>
+        {% if city %}
         body {
             background-image: url("{{ city.background.url }}");
         }
+        {% endif %}
     </style>
 </body>
 </html>

@@ -45,7 +45,7 @@ def show_event(request, city, event_id):
 @login_required
 def show_user(request):
     user = request.user.hackauser
-    return render(request, 'user.html', {'user': user, 'events': Registration.objects.filter(user_id=user.id)})
+    return render(request, 'user.html', {'events': Registration.objects.filter(user=request.user)})
 
 
 def signup(request):
