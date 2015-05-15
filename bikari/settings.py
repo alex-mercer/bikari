@@ -101,6 +101,10 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
 )
 
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = 'media/'
+
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

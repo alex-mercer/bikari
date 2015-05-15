@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-6" id="about-desc">
                 <h3>{{ event.description }}</h3>
-                <h3>{{ event.start }}</h3>
+                <h3 id="event-time"></h3>
                 <form method="POST" action="">
                     <button type="submit" class="btn btn-success" >ثبت نام</button>
                 </form>
@@ -23,29 +23,34 @@
     </div>
     <style>
         #event-image {
-            margin: 50px;
             border-radius: 10px;
-            background-image: url("{{ event.image }}");
+            background-image: url("{{ event.picture.url }}");
             background-size: cover;
-            width: 300px;
+            width: 500px;
             height: 300px;
         }
         #event-location{
-            width:300px;
+            margin:5px;
+            border-radius: 5px;
+            width:500px;
             height: 300px;
         }
     </style>
 {% endblock %}
 {% block scripts%}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment-with-locales.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script>
         google.maps.event.addDomListener(window, 'load', init);
         var map;
-        function setMapSize(){
         function init() {
+            var timeElement = $('#event-time');
+            moment.locale("fa");
+            timeElement.html(moment("{{ event.start.togregorian|date:'c' }}").fromNow());
             console.log("INIT");
             var mapOptions = {
                 zoom: 10,
-                center: new google.maps.LatLng({{ event.lat }}, {{ event.lng }})
+                center: new google.maps.LatLng({{ event.position.latitude }}, {{ event.position.longitude }})
             };
 
             // Get the HTML DOM element that will contain your map
@@ -55,9 +60,9 @@
             // Create the Google Map using our element and options defined above
             map = new google.maps.Map(mapElement, mapOptions);
             var marker = new google.maps.Marker({
-                position: new google.maps.LatLng({{ event.lat }}, {{ event.lng }}),
+                position: new google.maps.LatLng({{ event.position.latitude }}, {{ event.position.longitude }}),
                 map: map,
-                title: city.name
+                title: event.title
             });
         }
     </script>
