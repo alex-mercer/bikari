@@ -2,13 +2,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib import auth
-from hacka.models import HackaUser, User, City
+from hacka.models import HackaUser, User, City, Event
 
 
 def home(request):
     cities = City.objects.all()
     return render(request, 'home.html', {'auth': request.user.is_authenticated(), 'cities': cities})
-
 
 
 def logout(request):
@@ -17,16 +16,29 @@ def logout(request):
 
 
 def show_city(request, city):
-    city = get_object_or_404(City, name=city)
+    city = get_object_or_404(City, english_name=city)
 
 
 def show_event(request, city, event_id):
-    pass
+    city = get_object_or_404(City, english_name=city)
+    event = get_object_or_404(Event, id=event_id)
+    data = {
+        'title': event.title,
+        'description': event.description,
+        'start': event.start.strftime("%d/%m/%y-%H:%M"),
+        'end': event.end.strftime("%d/%m/%y-%H:%M"),
+        'tags': [
+            e_tag.name for e_tag in event.tags.all()
+        ],
+        'latitude': event.position.latitude,
+        'longitude': event.position.longitude,
+        'city': city.english_name
+    }
+    return render(request, 'event.html', data)
 
 
 def show_user(request, user_name):
     pass
-
 
 
 def signup(request):
