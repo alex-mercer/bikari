@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.conf.urls import patterns, include, url
+from django.conf.urls.static import static
 from django.contrib import admin
 from hacka import views
 
@@ -12,4 +14,4 @@ urlpatterns = patterns('',
     url(r'^(?P<city>\w+)/', views.show_city, name='show_city'),
     url(r'^/user/(?P<user_name>\w+)/', views.show_user),
 
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
