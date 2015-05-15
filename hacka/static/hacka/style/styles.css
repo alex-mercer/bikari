@@ -71,6 +71,9 @@ body{
     margin-top:20px;
     width: 250px;
 }
+#event-section{
+    padding:40px;
+}
 /*********************LIST TABLES**********************/
 .list-table-head{
     text-align: center;
