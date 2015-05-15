@@ -30,7 +30,7 @@ class City(models.Model):
     background = models.ImageField(blank=True)
 
     def get_absolute_url(self):
-        return reverse('show_city', args=[self.name])
+        return reverse('show_city', args=[self.english_name])
 
     def __unicode__(self):
         return self.name
@@ -51,7 +51,7 @@ class Event(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        path = reverse('show_event', args=[self.city.name, self.id])
+        path = reverse('show_event', args=[self.city.english_name, self.id])
         return "http://localhost:8000%s" % path
 
 
