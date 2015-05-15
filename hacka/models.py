@@ -23,6 +23,7 @@ class Tag(models.Model):
 
 class City(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
     english_name = models.CharField(max_length=100, unique=True)
     position = GeopositionField()
     admins = models.ManyToManyField(User)

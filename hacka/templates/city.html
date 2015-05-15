@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block container %}
+    <div class="section card-box" id="about-section">
+        <div class="row">
+            <div class="col-md-4" id="about-img">
+                <div id="city-image"></div>
+            </div>
+            <div class="col-md-8" id="about-desc">
+                <h1>
+                    هاکا{
+                    {{ city.name }}
+                    }
+                </h1>
+                <h3>{{ city.description }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="section card-box" id="hot-event-section">
+
+    </div>
+    <div class="section card-box" id="hot-events-section">
+        {
+    </div>
+    <div class="section card-box" id="contact-section">
+
+    </div>
+    <style>
+        #city-image{
+            border-radius: 10px;
+            background-image: url("{{ city.picture.url }}");
+            background-size: cover;
+            width: 250px;
+            height: 250px;
+            margin: 50px;
+        }
+        body {
+            background-image: url("{{ city.background.url }}");
+        }
+    </style>
+{% endblock %}
