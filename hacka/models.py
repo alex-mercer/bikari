@@ -10,6 +10,9 @@ class HackaUser(models.Model):
     user = models.OneToOneField(User)
     profile_picture = models.ImageField(blank=True)
 
+    def __unicode__(self):
+        return self.user.username
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=40)
@@ -43,7 +46,8 @@ class Event(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('show_event', args=[self.city.name, self.id])
+        path = reverse('show_event', args=[self.city.name, self.id])
+        return "http://localhost:8000%s" % path
 
 
 class Registration(models.Model):
@@ -70,3 +74,7 @@ class Registration(models.Model):
                 if message:
                     self.user.email_user(u'نتیجه ثبت‌نام شما در رویداد %s' % self.event.title, '', html_message=message)
         super(Registration, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return self.user.username + " vs. " + self.event.title
+

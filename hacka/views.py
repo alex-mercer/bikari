@@ -49,6 +49,9 @@ def signup(request):
             new_user.save()
             user = auth.authenticate(username=username, password=password)
             auth.login(request, user)
+
+
+
             return redirect(reverse('home'))
         except:
             alert_message = u'ثبت‌نام شما با مشکل مواجه شد. دوباره تلاش کنید.'
@@ -63,6 +66,7 @@ def login(request):
             password = request.POST.get('password')
             username = email
             user = auth.authenticate(username=username, password=password)
+
             if user is None:
                 alert_message = u'آدرس ایمیل یا رمز عبور نامعتبر می‌باشد.'
             else:
