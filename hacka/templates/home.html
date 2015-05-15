@@ -1,0 +1,378 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>HackaGlobal</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href={% static "hacka/lib/bootstrap-3.3.4-dist/css/bootstrap.css" %}>
+    <link rel="stylesheet" href={% static "hacka/style/bootstrap-rtl.min.css" %}>
+    <link rel="stylesheet" href={% static "hacka/style/toastr.min.css" %}>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href={% static "hacka/lib/bootstrap-3.3.4-dist/css/bootstrap-theme.css" %}>
+
+</head>
+<body>
+<div id="holder">
+    <div id="map_logo"></div>
+</div>
+<div id="map"></div>
+<script src={% static "hacka/lib/jquery.js" %}></script>
+<script src={% static "hacka/lib/bootstrap-3.3.4-dist/js/bootstrap.js" %}></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+    var cities = [
+        {% for city in cities %}
+            {
+                'lat':{{ city.position.latitude }},
+                'lng':{{ city.position.longitude }},
+                'name': '{{ city.name }}',
+                'link': '{{ city.get_absolute_url }}'
+            },
+        {% endfor %}
+    ]
+</script>
+<script type="text/javascript">
+    // When the window has finished loading create our google map below
+    google.maps.event.addDomListener(window, 'load', init);
+    var map;
+    function setMapSize(){
+        var mapElement = document.getElementById('map');
+        $(mapElement).height($(window).height() +100);
+        $(mapElement).width($(window).width());
+        $('body').height($(window).height());
+        if(map!=null)
+            map.setCenter(new google.maps.LatLng(32,54));
+    }
+    $(window).resize(setMapSize);
+    function init() {
+        console.log("INIT");
+        // Basic options for a simple Google Map
+        // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+        var mapOptions = {
+            // How zoomed in you want the map to start at (always required)
+            zoom: 5,
+
+            // The latitude and longitude to center the map (always required)
+            center: new google.maps.LatLng(32, 53), // New York
+            disableDefaultUI:true,
+            panControl:false,
+            draggable:false,
+            minZoom: 5,
+            maxZoom: 5,
+            // How you would like to style the map.
+            // This is where you would paste any style found on Snazzy Maps.
+            styles: [
+                {
+                    "featureType": "all",
+                    "elementType": "labels.text",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "all",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "saturation": 36
+                        },
+                        {
+                            "color": "#000000"
+                        },
+                        {
+                            "lightness": 40
+                        }
+                    ]
+                },
+                {
+                    "featureType": "all",
+                    "elementType": "labels.text.stroke",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        },
+                        {
+                            "color": "#000000"
+                        },
+                        {
+                            "lightness": 16
+                        }
+                    ]
+                },
+                {
+                    "featureType": "all",
+                    "elementType": "labels.icon",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        },
+                        {
+                            "lightness": 20
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        },
+                        {
+                            "lightness": 17
+                        },
+                        {
+                            "weight": 1.2
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative",
+                    "elementType": "labels.text",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.country",
+                    "elementType": "labels.text",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.province",
+                    "elementType": "labels.text",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.locality",
+                    "elementType": "labels.text",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.neighborhood",
+                    "elementType": "labels.text",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.land_parcel",
+                    "elementType": "labels.text",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        },
+                        {
+                            "lightness": 20
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape",
+                    "elementType": "labels.text",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape.natural",
+                    "elementType": "labels.text",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape.natural.landcover",
+                    "elementType": "labels.text",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        },
+                        {
+                            "lightness": 21
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        },
+                        {
+                            "lightness": 17
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        },
+                        {
+                            "lightness": 29
+                        },
+                        {
+                            "weight": 0.2
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.arterial",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        },
+                        {
+                            "lightness": 18
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.local",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        },
+                        {
+                            "lightness": 16
+                        }
+                    ]
+                },
+                {
+                    "featureType": "transit",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        },
+                        {
+                            "lightness": 19
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#000000"
+                        },
+                        {
+                            "lightness": 17
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "labels.text",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // Get the HTML DOM element that will contain your map
+        // We are using a div with id="map" seen below in the <body>
+        var mapElement = document.getElementById('map');
+        setMapSize();
+
+        // Create the Google Map using our element and options defined above
+        map = new google.maps.Map(mapElement, mapOptions);
+
+        cities.forEach(function(city) {
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(city.lat, city.lng),
+                map: map,
+                title: city.name
+            });
+            var infowindow = new google.maps.InfoWindow({
+                content: "<a style='margin-right: 20px' href='" + city.link + "'>برو به " + city.name + "</a>"
+            });
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.open(map, marker);
+            });
+        });
+    }
+</script>
+<style>
+    #holder{
+        margin-right:50%;
+    }
+    #map_logo{
+        margin-top: 20px;
+        margin-right:-150px;
+        position: fixed;
+        z-index:1000;
+        background-image: url('{% static "hacka/images/map_logo.png" %}');
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 300px;
+        height: 155px;
+        opacity: .3;
+    }
+    #map{
+    }
+</style>
+
+</body>
+</html>

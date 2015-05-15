@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block container%}
+<div class="section" id="event-section">
+    <ul id="event-cards">
+        {% for event in events %}
+        <li class="card-box">
+            <a href="{{ event.get_absolute_url }}">
+                <div class="img" style="background-image:url('{{ event.image }}')"></div>
+            </a>
+            <div class="desc">
+                <h3>
+                    {{ event.description }}
+                </h3>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
