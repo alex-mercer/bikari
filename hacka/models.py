@@ -20,8 +20,10 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class City(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
+    english_name = models.CharField(max_length=100, unique=True)
     position = GeopositionField()
     admins = models.ManyToManyField(User)
     picture = models.ImageField(blank=True)
