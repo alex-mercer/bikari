@@ -10,9 +10,6 @@ def home(request):
     return render(request, 'home.html', {'auth': request.user.is_authenticated(), 'cities': cities})
 
 
-def login(request):
-    return render(request, 'login.html')
-
 
 def logout(request):
     auth.logout(request)
@@ -29,6 +26,7 @@ def show_event(request, city, event_id):
 
 def show_user(request, user_name):
     pass
+
 
 
 def signup(request):
