@@ -1,0 +1,191 @@
+@font-face {
+    font-family: yekan;
+    src: url(../font-faces/bayan-yekan/byekan.eot?view);
+    src: url(../font-faces/bayan-yekan/byekan.eot?view#iefix) format('embedded-opentype'), url(../font-faces/bayan-yekan/byekan.woff?view) format('woff'), url(../font-faces/bayan-yekan/byekan.ttf?view) format('truetype');
+    font-weight: 400;
+    font-style: normal
+}
+
+*{
+    font-family: yekan;
+}
+body{
+    padding-top: 50px;
+    background-color: #000000;
+    background-image: url("../images/tehran-wallpaper.jpg");
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed;
+}
+
+/***************BASICS****************/
+.section{
+    height: auto;
+    min-height: 100px;
+    width: 100%;
+}
+
+#user-events-section{
+    padding:20px;
+}
+
+#about-img .img{
+    margin: 50px;
+    border-radius: 10px;
+    background-image: url("../images/hack.jpg");
+    background-size: cover;
+    width: 300px;
+    height: 300px;
+}
+#about-desc{
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+.card-box{
+    box-shadow: inset 0 1px 3px 0 rgba(255,255,255,.7),0 0 8px rgba(0,0,0,0),inset 0 0 3px 1px rgba(255,255,255,.2),0 0 8px rgba(0,0,0,.4);
+    background: url("../images/form-bg-trans.png");
+    margin: 15px;
+    border-radius: 3px;
+}
+#event-cards{
+    text-align: center;
+}
+#event-cards li{
+    padding: 25px 25px 25px 25px;
+    display: inline-block;
+    width: 300px;
+    height:350px;
+    overflow: hidden;
+}
+#event-cards li .img{
+    border-radius: 5px 5px 5px 5px;
+    width:250px;
+    height:200px;
+    background-size: cover;
+}
+#event-cards .card-box .desc{
+    margin-top:20px;
+    width: 250px;
+}
+/*********************LIST TABLES**********************/
+.list-table-head{
+    text-align: center;
+    font-family: yekan;
+    font-size: 18px;
+}
+
+.list-table-head-item{
+    text-align: center;
+}
+
+.list-table-body tr:hover{
+    background: url("../images/input-bg.png");
+}
+
+.list-table-body-item{
+    text-align: center;
+    font-family: yekan;
+}
+
+.list-body-item-setting-icon{
+    width: 20px;
+    height: 20px;
+}
+
+.list-body-item-status-false{
+    background-color: #d10001;
+}
+.list-body-item-status-true{
+    background-color: #5bcb6c;
+}
+
+.list-body-item-dismiss {
+    background: url("../images/form-bg-trans-black.png");
+    width:20px;
+}
+
+.list-table-head-status{
+    width: 30%;
+}
+
+.list-table-head-numb{
+    width: 10%;
+}
+.list-table{
+    margin-top: 20px;
+}
+
+/*****************LOGIN***************/
+.login-box{
+    box-shadow: inset 0 1px 3px 0 rgba(255,255,255,.7),0 0 8px rgba(0,0,0,0),inset 0 0 3px 1px rgba(255,255,255,.2),0 0 8px rgba(0,0,0,.4);
+    background: url("../images/form-bg-trans.png");
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 3px;
+}
+.login-box-title{
+    text-align: center;
+    font-family: yekan;
+    font-weight: 600;
+    font-size: 30px;
+    color: grey;
+}
+
+::-webkit-input-placeholder {
+    color: white;
+    font-family: yekan;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: #f5f5f5;
+    font-family: yekan;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: white;
+    font-family: yekan;
+}
+
+:-ms-input-placeholder {
+    color: white;
+    font-family: yekan;
+}
+
+.login-input{
+    direction: rtl;
+    padding: 5px 10px;
+    background: url("../images/input-bg.png") !important;
+    width: 100%;
+    box-shadow: inset 0 1px 2px 0 rgba(0,0,0,.3),0 1px 1px 0 rgba(255,255,255,.4);
+    color: white !important;
+    border: 0 !important;
+    height: 50px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border-radius: 3px !important;
+
+}
+
+input:-webkit-autofill {
+    /*-webkit-box-shadow: none !important;*/
+    /*background: url("../../images/input-bg.png") !important;*/
+    background-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+
+}
+
+.login-btn{
+    font-family: yekan;
+    width:120px;
+    height: 50px;
+    margin: 30px 0 1px 0;
+    font-size: 20px;
+    padding-bottom: 15px;
+}
+

@@ -1,11 +1,53 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>HackaGlobal</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href={% static "hacka/lib/bootstrap-3.3.4-dist/css/bootstrap.css" %}>
+    <link rel="stylesheet" href={% static "hacka/style/bootstrap-rtl.min.css" %}>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href={% static "hacka/lib/bootstrap-3.3.4-dist/css/bootstrap-theme.css" %}>
+
+    <link rel="stylesheet" href={% static "hacka/style/styles.css" %}>
 </head>
 <body>
-{% block body %}
-{% endblock %}
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header pull-right">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">هاکا
+                            {تهران}</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">هاکا {تهران}</a></li>
+                            <li><a href="#">هاکا {اصفهان}</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+            <a href='/logout' class="pull-left navbar-brand">
+                <span class="glyphicon glyphicon-log-out"></span>
+            </a>
+            <a href='/' class="pull-left navbar-brand">
+                <span class="glyphicon glyphicon-home"></span>
+            </a>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <div class="container">
+        {% block container %}
+        {% endblock %}
+    </div>
+    <script src={% static "hacka/lib/jquery.js" %}></script>
+    <script src={% static "hacka/lib/bootstrap-3.3.4-dist/js/bootstrap.js" %}></script>
+    {% block scripts %}
+    {% endblock %}
 </body>
 </html>
