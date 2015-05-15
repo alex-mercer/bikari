@@ -22,6 +22,9 @@ class City(models.Model):
     position = GeopositionField()
     admins = models.ManyToManyField(User)
 
+    def get_absolute_url(self):
+        return reverse('show_city', args=[self.name])
+
     def __unicode__(self):
         return self.name
 

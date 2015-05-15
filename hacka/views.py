@@ -6,7 +6,8 @@ from hacka.models import HackaUser, User, City
 
 
 def home(request):
-    return render(request, 'index.html', {'auth': request.user.is_authenticated()})
+    cities = City.objects.all()
+    return render(request, 'index.html', {'auth': request.user.is_authenticated(), 'cities': cities})
 
 
 def login(request):

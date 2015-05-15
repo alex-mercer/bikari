@@ -2,3 +2,17 @@
 {% block container %}
 Index page
 {% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        var cities = [
+            {% for city in cities %}
+                {
+                    'lat':{{ city.position.latitude }},
+                    'lng':{{ city.position.longitude }},
+                    'name': '{{ city.name }}',
+                    'link': '{{ city.get_absolute_url }}',
+                },
+            {% endfor %}
+        ]
+    </script>
+{% endblock %}
