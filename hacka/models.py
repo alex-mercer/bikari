@@ -24,6 +24,8 @@ class City(models.Model):
     name = models.CharField(max_length=100)
     position = GeopositionField()
     admins = models.ManyToManyField(User)
+    picture = models.ImageField(blank=True)
+    background = models.ImageField(blank=True)
 
     def get_absolute_url(self):
         return reverse('show_city', args=[self.name])
@@ -41,6 +43,7 @@ class Event(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     position = GeopositionField()
     city = models.ForeignKey(City)
+    picture = models.ImageField(blank=True)
 
     def __unicode__(self):
         return self.title
