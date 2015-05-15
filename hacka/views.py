@@ -110,8 +110,13 @@ def edit_profile(request):
         if request.POST.get('last_name'):
             request.user.last_name = request.POST.get('last_name')
             changed = True
-        if request.POST.get('new_password') and request.user.check_password(request.POST.get('password')):
-            request.user.set_password(request.POST.get('new_password'))
+        if request.POST.get('new_password'):
+            if request.user.check_password(request.POST.get('password')):
+                request.user.set_password(request.POST.get('new_password'))
+            else:
+                context['alert_title'] = u'خطا در انجام تغییرات'
+                context['alert_message'] = u'رمز عبور شما نامعتبر است'
+                return render(request, 'edit_profile.html', context)
             password = request.POST.get('new_password')
             changed = True
         request.user.save()
