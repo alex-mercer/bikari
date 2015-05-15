@@ -83,23 +83,33 @@ def edit_profile(request):
     if not request.user.is_authenticated():
         return redirect(reverse('login'))
 
+    context = {}
+
     if request.method == "POST":
         password = ''
         username = request.user.username
+        changed = False
         if request.POST.get('first_name'):
             request.user.first_name = request.POST.get('first_name')
+            changed = True
         if request.POST.get('last_name'):
             request.user.last_name = request.POST.get('last_name')
+            changed = True
         if request.POST.get('new_password') and request.user.check_password(request.POST.get('password')):
             request.user.set_password(request.POST.get('new_password'))
             password = request.POST.get('new_password')
+            changed = True
         request.user.save()
         if password:
             request.user = auth.authenticate(username=username, password=password)
             auth.login(request, request.user)
 
-    context = {
-        'user': request.user,
-    }
+        if changed:
+            context['alert_title'] = u'تغییر اطلاعات'
+            context['alert_message'] = u'اطلاعات شما با موفقیت به روز شد'
+            context['alert_type'] = 'success'
+
+
+    context['user'] = request.user
 
     return render(request, 'edit_profile.html', context)
