@@ -16,6 +16,7 @@
                 <h3>{{ event.description }}</h3>
                 <h3 id="event-time"></h3>
                 <form method="POST" action="">
+                    {% csrf_token %}
                     <button type="submit" class="btn btn-success" >ثبت نام</button>
                 </form>
             </div>

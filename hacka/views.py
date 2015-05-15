@@ -25,6 +25,20 @@ def show_city(request, city):
 def show_event(request, city, event_id):
     city = get_object_or_404(City, english_name=city)
     event = get_object_or_404(Event, id=event_id)
+    if request.POST:
+        if not request.user.is_authenticated():
+            return render(request, 'event.html', {'event': event, 'city': city,
+                      'alert_type': 'error', 'alert_message': u'برای ثبت نام ابتدا باید وارد شوید.'})
+        else:
+            if Registration.objects.filter(user=request.user, event=event).count():
+                return render(request, 'event.html', {'event': event, 'city': city,
+                          'alert_type': 'error', 'alert_message': u'شما قبلا برای ثبت نام اقدام کردید.'})
+            user = request.user.hackauser
+            new_reg = Registration(user=request.user, event=event, status='P')
+            new_reg.save()
+            return render(request, 'events.html', {'user': user,
+                        'events': Registration.objects.filter(user_id=user.id),
+                        'alert_type': 'success', 'alert_message': u'ثبت نام شما با موفقیت انجام شد.'})
     return render(request, 'event.html', {'event': event, 'city': city})
 
 
