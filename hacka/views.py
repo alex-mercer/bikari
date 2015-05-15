@@ -9,12 +9,12 @@ from hacka.models import HackaUser, User, City, Event, Registration
 
 def home(request):
     cities = City.objects.all()
-    return render(request, 'home.html', {'auth': request.user.is_authenticated(), 'cities': cities})
+    return render(request, 'index.html', {'auth': request.user.is_authenticated(), 'cities': cities})
 
 
 def logout(request):
     auth.logout(request)
-    return render(request, 'index.html',{'alert_type':'success','alert_message':u'شما با موفقیت خارج شدید'})
+    return render(request, 'index.html', {'alert_type': 'success', 'alert_message': u'شما با موفقیت خارج شدید'})
 
 
 def show_city(request, city):
@@ -35,31 +35,42 @@ def show_user(request):
     user = request.user.hackauser
     return render(request, 'events.html', {'user': user, 'events': Registration.objects.filter(user_id=user.id)})
 
-
 def signup(request):
     if request.user.is_authenticated():
         return redirect(reverse('home'))
     alert_message = ''
     if request.method == 'POST':
-        try:
-            password = request.POST.get('password')
-            first_name = request.POST.get('first_name')
-            last_name = request.POST.get('last_name')
-            email = request.POST.get('email')
-            username = email
+        # try:
+        print 'here1'
 
-            new_user = HackaUser()
-            new_user.user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name,
-                                                     last_name=last_name)
-            new_user.save()
-            user = auth.authenticate(username=username, password=password)
-            auth.login(request, user)
+        password = request.POST.get('password')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        username = email
 
+        print 'here2'
 
+        new_user = HackaUser()
+        new_user.user = User.objects.create_user(username=username, password=password, email=email,
+                                                 first_name=first_name, last_name=last_name)
 
-            return redirect(reverse('home'))
-        except:
-            alert_message = u'ثبت‌نام شما با مشکل مواجه شد. دوباره تلاش کنید.'
+        print 'here3'
+
+        new_user.save()
+
+        print 'here4'
+
+        user = auth.authenticate(username=username, password=password)
+        auth.login(request, user)
+
+        print 'here5'
+
+        user.email_user(subject='تایید ثبت نام', message='ثبت نام شما با موفقیت انجام شد')
+
+        return redirect(reverse('home'))
+        #except:
+        #    alert_message = u'ثبت‌نام شما با مشکل مواجه شد. دوباره تلاش کنید.'
     return render(request, 'signup.html', {'alert_title': u'اخطار', 'alert_message': alert_message})
 
 
@@ -107,7 +118,6 @@ def edit_profile(request):
         if password:
             request.user = auth.authenticate(username=username, password=password)
             auth.login(request, request.user)
-
         if changed:
             context['alert_title'] = u'تغییر اطلاعات'
             context['alert_message'] = u'اطلاعات شما با موفقیت به روز شد'
