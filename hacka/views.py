@@ -8,7 +8,7 @@ from hacka.models import HackaUser, User, City, Event, Registration
 
 def home(request):
     cities = City.objects.all()
-    return render(request, 'index.html', {'auth': request.user.is_authenticated(), 'cities': cities})
+    return render(request, 'home.html', {'auth': request.user.is_authenticated(), 'cities': cities})
 
 
 def logout(request):
@@ -18,9 +18,8 @@ def logout(request):
 
 def show_city(request, city):
     city = get_object_or_404(City, english_name=city)
-    return render(request, 'events.html', {'city': city,
-                                           'events': [event for event in Event.objects.filter(city__pk=city.pk)],
-                                           })
+    events = Event.objects.filter(city=city).order_by('start')
+    return render(request, 'city.html',{'city': city, 'events': events})
 
 
 def show_event(request, city, event_id):
