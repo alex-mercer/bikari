@@ -30,7 +30,7 @@ class City(models.Model):
     background = models.ImageField(blank=True)
 
     def get_absolute_url(self):
-        return reverse('show_city', args=[self.name])
+        return reverse('show_city', args=[self.english_name])
 
     def __unicode__(self):
         return self.name
