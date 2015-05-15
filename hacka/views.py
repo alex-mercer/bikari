@@ -23,7 +23,6 @@ def show_city(request, city):
 
 
 def show_event(request, city, event_id):
-    print "umad"
     city = get_object_or_404(City, english_name=city)
     event = get_object_or_404(Event, id=event_id)
     return render(request, 'event.html', {'event': event, 'city': city})
