@@ -7,6 +7,7 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href={% static "hacka/lib/bootstrap-3.3.4-dist/css/bootstrap.css" %}>
     <link rel="stylesheet" href={% static "hacka/style/bootstrap-rtl.min.css" %}>
+    <link rel="stylesheet" href={% static "hacka/style/toastr.min.css" %}>
 
     <!-- Optional theme -->
     <link rel="stylesheet" href={% static "hacka/lib/bootstrap-3.3.4-dist/css/bootstrap-theme.css" %}>
@@ -47,7 +48,13 @@
     </div>
     <script src={% static "hacka/lib/jquery.js" %}></script>
     <script src={% static "hacka/lib/bootstrap-3.3.4-dist/js/bootstrap.js" %}></script>
+    <script src={% static "hacka/lib/toastr.min.js" %}></script>
     {% block scripts %}
     {% endblock %}
+    <script type="text/javascript">
+        {% if alert_message %}
+            toastr["{{ alert_type|default:'error' }}"]("{{ alert_message }}", "{{ alert_title }}");
+        {% endif %}
+    </script>
 </body>
 </html>

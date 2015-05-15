@@ -14,11 +14,17 @@ class HackaUser(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=40)
 
+    def __unicode__(self):
+        return self.name
 
 class City(models.Model):
     name = models.CharField(max_length=100)
     position = GeopositionField()
-    admins = models.ManyToManyField(User, limit_choices_to={'user__is_staff': True})
+    admins = models.ManyToManyField(User)
+
+    def __unicode__(self):
+        return self.name
+
 
 
 class Event(models.Model):
@@ -29,6 +35,9 @@ class Event(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     position = GeopositionField()
     city = models.ForeignKey(City)
+
+    def __unicode__(self):
+        return self.title
 
     def get_absolute_url(self):
         return reverse('show_event', args=[self.city.name, self.id])
@@ -46,17 +55,15 @@ class Registration(models.Model):
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
 
     def save(self, *args, **kwargs):
+        if self.pk is not None:
+            orig = Registration.objects.get(pk=self.pk)
+            if orig.status != self.status:
+                event = '<a href="%s">%s</a>' % (self.event.get_absolute_url(), self.event.title)
+                message = ''
+                if self.status == 'A':
+                    message = u'تبریک ثبت‌نام شما برای رویداد %s تایید شد! منتظرتان هستیم' % event
+                elif self.status == 'R':
+                    message = u'تسلیت! ثبت‌نام شما برای رویداد %s رد شد. امیدواریم در رویداد‌های بعدی شاهد حضور شما باشیم.' % event
+                if message:
+                    self.user.email_user(u'نتیجه ثبت‌نام شما در رویداد %s' % self.event.title, '', html_message=message)
         super(Registration, self).save(*args, **kwargs)
-        if self.pk is None:
-            return
-        orig = Registration.objects.get(pk=self.pk)
-        if orig.status != self.status:
-            event = '<a href="%s">%s</a>' % (self.event.get_absolute_url(), self.event.title)
-            message = ''
-            if self.status == 'A':
-                message = u'تبریک ثبت‌نام شما برای رویداد %s تایید شد! منتظرتان هستیم' % event
-            elif self.status == 'R':
-                message = u'تسلیت! ثبت‌نام شما برای رویداد %s رد شد. امیدواریم در رویداد‌های بعدی شاهد حضور شما باشیم.' % event
-            if message:
-                self.user.email_user(u'نتیجه ثبت‌نام شما در رویداد %s' % self.event.title, '', html_message=message)
-
