@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load jformat %}
+{% load static %}
 {% block container %}
     <div class="section card-box" id="user-events-section">
         <div class="row">
@@ -18,7 +20,7 @@
                             <th class="list-table-head-item list-table-head-title">عنوان</th>
                             <th class="list-table-head-item list-table-head-time">زمان</th>
                             <th class="list-table-head-item list-table-head-status">وضعیت</th>
-                            <th class="list-table-head-item list-table-head-dismiss"></th>
+                            <th class="list-table-head-item list-table-head-dismiss">حذف</th>
                         </tr>
                         </thead>
                         <tbody class="list-table-body">
@@ -26,9 +28,9 @@
                         <tr data-href="#" class="list-table-body-tr">
                             <td class="list-table-body-item">{{ forloop.counter }}</td>
                             <td class="list-table-body-item"><a href="{{ event.event.get_absolute_url }}">{{ event.event.title }}</a></td>
-                            <td class="list-table-body-item">{{ event.event.start }}</td>
-                            <td class="list-table-body-item">{{ event.status }}</td>
-                            <td class="list-table-body-item list-body-item-dismiss"><a href="/devices/detail?id="><img src="images/icon4.png" class="list-body-item-setting-icon"/></a></td>
+                            <td class="list-table-body-item event-time invisible">{{ event.event.start.togregorian|date:'c' }}</td>
+                            <td class="list-table-body-item">{{ event.get_status_display }}</td>
+                            <td class="list-table-body-item"><a href="/user/?remove_id={{ event.id }}"><span class="glyphicon glyphicon-remove"></span></a></td>
                         </tr>
                         {% endfor %}
                         </tbody>
@@ -38,4 +40,17 @@
             <div class="col-md-1"></div>
         </div>
     </div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment-with-locales.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var timeElement = $('.event-time');
+        moment.locale("fa");
+        timeElement.each(function (boz) {
+            $(this).html(moment($(this).html()).fromNow());
+            $(this).removeClass('invisible');
+        });
+    });
+</script>
 {% endblock %}

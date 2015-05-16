@@ -1,4 +1,5 @@
 # coding=utf-8
+from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -8,12 +9,16 @@ from hacka.models import HackaUser, User, City, Event, Registration
 
 def home(request):
     cities = City.objects.all()
-    return render(request, 'home.html', {'auth': request.user.is_authenticated(), 'cities': cities})
+    context = {'auth': request.user.is_authenticated(), 'cities': cities}
+    if request.method == 'GET':
+        if request.GET.get('logout'):
+            context.update({'alert_type': 'success', 'alert_message': u'شما با موفقیت خارج شدید'})
+    return render(request, 'home.html', context)
 
 
 def logout(request):
     auth.logout(request)
-    return render(request, 'index.html', {'alert_type': 'success', 'alert_message': u'شما با موفقیت خارج شدید'})
+    return redirect(reverse('home') + '?logout=success')
 
 
 def show_city(request, city):
@@ -36,16 +41,23 @@ def show_event(request, city, event_id):
             user = request.user.hackauser
             new_reg = Registration(user=request.user, event=event, status='P')
             new_reg.save()
-            return render(request, 'events.html', {'user': user,
-                        'events': Registration.objects.filter(user_id=user.id),
-                        'alert_type': 'success', 'alert_message': u'ثبت نام شما با موفقیت انجام شد.'})
+            return redirect(reverse('user_profile') + '?register=success')
+    if event.city != city:
+        raise Http404()
     return render(request, 'event.html', {'event': event, 'city': city})
 
 
 @login_required
 def show_user(request):
-    user = request.user.hackauser
-    return render(request, 'user.html', {'events': Registration.objects.filter(user=request.user)})
+    hackauser = request.user.hackauser
+    context = {'user': request.user, 'events': Registration.objects.filter(user=request.user).order_by('-event__start')}
+    if request.method == 'GET':
+        if request.GET.get('register'):
+            context.update({'alert_type': 'success', 'alert_message': u'ثبت نام شما با موفقیت انجام شد.'})
+        elif request.GET.get('remove_id'):
+            Registration.objects.get(pk=request.GET.get('remove_id')).delete()
+            context.update({'alert_type': 'success', 'alert_message': u'ثبت‌نام شما با موفقیت حذف شد'})
+    return render(request, 'user.html', context)
 
 
 def signup(request):

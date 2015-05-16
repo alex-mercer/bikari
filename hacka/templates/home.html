@@ -69,7 +69,7 @@
                     "elementType": "labels.text",
                     "stylers": [
                         {
-                            "visibility": "off"
+                            "visibility": "on"
                         }
                     ]
                 },
@@ -108,7 +108,7 @@
                     "elementType": "labels.icon",
                     "stylers": [
                         {
-                            "visibility": "off"
+                            "visibility": "on"
                         }
                     ]
                 },
@@ -144,7 +144,7 @@
                     "elementType": "labels.text",
                     "stylers": [
                         {
-                            "visibility": "off"
+                            "visibility": "on"
                         }
                     ]
                 },
@@ -153,7 +153,7 @@
                     "elementType": "labels.text",
                     "stylers": [
                         {
-                            "visibility": "off"
+                            "visibility": "on"
                         }
                     ]
                 },
@@ -343,7 +343,8 @@
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(city.lat, city.lng),
                 map: map,
-                title: city.name
+                title: city.name,
+                visible: true
             });
             var infowindow = new google.maps.InfoWindow({
                 content: "<a style='margin-right: 20px' href='" + city.link + "'>برو به " + city.name + "</a>"
@@ -373,6 +374,11 @@
     #map{
     }
 </style>
-
+<script src={% static "hacka/lib/toastr.min.js" %}></script>
+<script type="text/javascript">
+    {% if alert_message %}
+        toastr["{{ alert_type|default:'error' }}"]("{{ alert_message }}", "{{ alert_t }}");
+    {% endif %}
+</script>
 </body>
 </html>

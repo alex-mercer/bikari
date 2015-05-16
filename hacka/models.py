@@ -5,6 +5,8 @@ from django.core.urlresolvers import reverse
 from geoposition.fields import GeopositionField
 from django_jalali.db import models as jmodels
 
+SITE_PATH = "http://tehran1.hackaglobal.ir"
+
 
 class HackaUser(models.Model):
     user = models.OneToOneField(User)
@@ -31,7 +33,8 @@ class City(models.Model):
     background = models.ImageField(blank=True)
 
     def get_absolute_url(self):
-        return reverse('show_city', args=[self.english_name])
+        path = reverse('show_city', args=[self.english_name])
+        return "%s%s" % (SITE_PATH, path)
 
     def __unicode__(self):
         return self.name
@@ -52,15 +55,15 @@ class Event(models.Model):
 
     def get_absolute_url(self):
         path = reverse('show_event', args=[self.city.english_name, self.id])
-        return "http://localhost:8000%s" % path
+        return "%s%s" % (SITE_PATH, path)
 
 
 class Registration(models.Model):
     STATUS_CHOICES = (
-        ('P', 'Pending'),
-        ('A', 'Accepted'),
-        ('R', 'Rejected'),
-        ('C', 'Canceled'),
+        ('P', u'در انتظار تایید'),
+        ('A', u'تایید شده'),
+        ('R', u'رد شده'),
+        ('C', u'لغو شده'),
     )
     user = models.ForeignKey(User)
     event = models.ForeignKey(Event)

@@ -52,7 +52,6 @@
             var timeElement = $('#event-time');
             moment.locale("fa");
             timeElement.html(moment("{{ event.start.togregorian|date:'c' }}").fromNow());
-            console.log("INIT");
             var mapOptions = {
                 zoom: 9,
                 center: new google.maps.LatLng({{ event.position.latitude }}, {{ event.position.longitude }})

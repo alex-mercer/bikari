@@ -20,7 +20,7 @@
         <ul id="event-cards">
             {% for event in events %}
             <li class="card-box">
-                <a href="http://google.com">
+                <a href="{{ event.get_absolute_url }}">
                     <div class="img" style="background-image:url('{{ event.picture.url }}')"></div>
                 </a>
                 <div class="desc">
